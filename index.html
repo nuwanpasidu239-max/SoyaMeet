@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -5,6 +6,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#080b14">
 <title>Sooya Meet</title>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <style>
 :root{
@@ -17,36 +20,25 @@
 }
 *{box-sizing:border-box}
 html,body{
-  margin:0;
-  min-height:100%;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Inter,system-ui,-apple-system,sans-serif;
+  margin:0;min-height:100%;
+  background:var(--bg);color:var(--text);
+  font-family:Inter,system-ui,-apple-system,sans-serif
 }
 body{min-height:100dvh}
 button,input{font:inherit}
 button{
-  border:0;
-  cursor:pointer;
-  color:white;
-  background:#252b3a;
-  padding:12px 15px;
-  border-radius:12px;
-  font-size:13px;
-  font-weight:650;
+  border:0;cursor:pointer;color:white;
+  background:#252b3a;padding:12px 15px;
+  border-radius:12px;font-size:13px;font-weight:650
 }
-button:disabled{opacity:.5}
+button:disabled{opacity:.5;cursor:not-allowed}
 .primary{background:linear-gradient(135deg,#8b5cf6,#6366f1)}
 .danger{background:var(--danger)}
 .hidden{display:none!important}
 header{
-  height:64px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 18px;
-  border-bottom:1px solid #ffffff12;
-  background:#080b14;
+  min-height:64px;display:flex;align-items:center;
+  justify-content:space-between;gap:12px;padding:0 18px;
+  border-bottom:1px solid #ffffff12
 }
 .brand{font-size:20px;font-weight:850}
 .brand span{color:#a78bfa}
@@ -55,24 +47,12 @@ header{
 .hero{text-align:center;padding:24px 0}
 .hero h1{font-size:clamp(28px,6vw,46px);margin:0 0 10px}
 .hero p,.notice,.small{color:var(--muted)}
-.card{
-  background:#111827;
-  border:1px solid #273247;
-  border-radius:18px;
-  padding:18px;
-  margin:14px 0;
-}
-.field{display:flex;flex-direction:column;gap:7px;margin:13px 0}
+.field{display:flex;flex-direction:column;gap:7px;margin:16px 0}
 .field label{font-size:13px;color:#c3cbe0}
 .field input,.chatform input{
-  width:100%;
-  min-width:0;
-  background:#0b1020;
-  color:white;
-  border:1px solid #34415a;
-  border-radius:11px;
-  padding:14px;
-  outline:none;
+  width:100%;min-width:0;background:#0b1020;color:white;
+  border:1px solid #34415a;border-radius:11px;
+  padding:14px;outline:none
 }
 .field input:focus,.chatform input:focus{border-color:var(--purple)}
 .row{display:flex;gap:10px;flex-wrap:wrap}
@@ -81,209 +61,141 @@ header{
 .status{color:#c4b5fd;font-size:13px;line-height:1.5;margin-top:10px}
 footer{text-align:center;color:#758099;font-size:12px;padding:20px}
 
+/* Flat sign-in and lobby: no cards or boxes */
+#login,#lobby{text-align:center;padding:20px 0}
+#login h2,#lobby h2{font-size:24px}
+.login-content{max-width:420px;margin:auto}
+#googleButton{display:flex;justify-content:center;margin:24px auto}
+#googleStatus{font-size:13px;color:var(--muted);line-height:1.6}
+#lobby .field{text-align:left}
+#lobby .row{margin-top:18px}
+.account-bar{
+  display:flex;align-items:center;justify-content:center;
+  flex-wrap:wrap;gap:10px;margin:14px 0 20px;
+  font-size:12px;color:var(--muted)
+}
+.account-bar img{width:30px;height:30px;border-radius:50%}
+#accountName{color:#f5f7ff;font-weight:650}
+#participantToggle{background:#171c2a;border:1px solid #343b50}
+#participantPanel{
+  margin:12px 0;padding:12px 0;text-align:left;
+  border-top:1px solid #ffffff18;border-bottom:1px solid #ffffff18
+}
+#participantPanel h3{font-size:14px}
+.participant-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 0;border-bottom:1px solid #ffffff0d;
+  overflow-wrap:anywhere;font-size:13px
+}
+.participant-dot{width:8px;height:8px;border-radius:50%;background:#4ade80;flex-shrink:0}
+.participant-email{color:var(--muted);font-size:11px;overflow-wrap:anywhere}
+
 /* FULL-SCREEN MEETING */
 body.meeting-active{overflow:hidden}
 body.meeting-active header,
 body.meeting-active .hero,
 body.meeting-active footer{display:none!important}
 body.meeting-active .wrap{
-  position:fixed;
-  inset:0;
-  width:100%;
-  max-width:none;
-  height:100%;
-  height:100dvh;
-  padding:0;
-  margin:0;
-  overflow:hidden;
+  position:fixed;inset:0;width:100%;max-width:none;
+  height:100dvh;padding:0;margin:0;overflow:hidden
 }
 body.meeting-active #meeting{
-  position:absolute;
-  inset:0;
-  display:block!important;
-  background:#05070c;
-  overflow:hidden;
+  position:absolute;inset:0;display:block!important;
+  background:#05070c;overflow:hidden
 }
-body.meeting-active #meeting>.meeting-top{
-  position:absolute;
-  top:0;left:0;right:0;
-  z-index:5;
+body.meeting-active .meeting-top{
+  position:absolute;top:0;left:0;right:0;z-index:5;
   padding:calc(env(safe-area-inset-top) + 12px) 14px 12px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  background:linear-gradient(#000b,transparent);
-  pointer-events:none;
+  display:flex;justify-content:space-between;align-items:center;
+  gap:10px;background:linear-gradient(#000b,transparent);
+  pointer-events:none
 }
 .meeting-top>*{pointer-events:auto}
 .meeting-top .room-info{min-width:0}
 .meeting-top .room-info strong{
-  display:block;
-  font-size:14px;
-  overflow-wrap:anywhere;
+  display:block;font-size:14px;overflow-wrap:anywhere
 }
 .meeting-top .small{font-size:11px}
-.meeting-top button{
-  background:#222735d9;
-  padding:10px 12px;
-  flex-shrink:0;
-}
-body.meeting-active .meeting-layout{
-  position:absolute;
-  inset:0;
-  display:block;
-}
+.meeting-top button{background:#222735d9;padding:10px 12px;flex-shrink:0}
+.meeting-layout{position:relative}
+body.meeting-active .meeting-layout{position:absolute;inset:0;display:block}
 body.meeting-active .video-stage{
-  position:absolute;
-  inset:0;
-  background:#05070c;
-  overflow:hidden;
+  position:absolute;inset:0;background:#05070c;overflow:hidden
 }
 .video-grid{
-  position:absolute;
-  inset:0;
-  display:grid;
+  position:absolute;inset:0;display:grid;
   grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));
-  grid-auto-rows:1fr;
-  gap:2px;
-  background:#05070c;
+  grid-auto-rows:1fr;gap:2px;background:#05070c
 }
-.tile{
-  position:relative;
-  min-width:0;
-  min-height:0;
-  overflow:hidden;
-  background:#10131c;
-}
+.tile{position:relative;min-width:0;min-height:0;overflow:hidden;background:#10131c}
 .tile video{
-  display:block;
-  width:100%;
-  height:100%;
-  min-height:0;
-  object-fit:cover;
-  background:#080b14;
+  display:block;width:100%;height:100%;min-height:0;
+  object-fit:cover;background:#080b14
 }
 .tile audio{display:none}
 .tile .name{
-  position:absolute;
-  bottom:calc(105px + env(safe-area-inset-bottom));
-  left:12px;
-  z-index:2;
-  background:#0009;
-  color:white;
-  padding:7px 10px;
-  border-radius:8px;
-  font-size:12px;
+  position:absolute;bottom:calc(105px + env(safe-area-inset-bottom));
+  left:12px;z-index:2;background:#0009;color:white;
+  padding:7px 10px;border-radius:8px;font-size:12px
 }
 .empty-video{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  gap:12px;
-  color:#c7cde0;
-  pointer-events:none;
+  position:absolute;inset:0;display:flex;align-items:center;
+  justify-content:center;flex-direction:column;gap:12px;
+  color:#c7cde0;pointer-events:none
 }
 .empty-video .avatar{
-  width:76px;height:76px;
-  display:grid;place-items:center;
-  border-radius:50%;
-  background:#29213e;
-  font-size:30px;
+  width:76px;height:76px;display:grid;place-items:center;
+  border-radius:50%;background:#29213e;font-size:30px
 }
 .empty-video p{font-size:13px;margin:0}
 body.meeting-active .controls{
-  position:absolute;
-  z-index:10;
-  bottom:0;left:0;right:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-wrap:nowrap;
-  gap:clamp(5px,2vw,12px);
+  position:absolute;z-index:10;bottom:0;left:0;right:0;
+  display:flex;justify-content:center;align-items:center;
+  flex-wrap:nowrap;gap:clamp(5px,2vw,12px);
   padding:12px 8px calc(12px + env(safe-area-inset-bottom));
-  background:linear-gradient(transparent,#080b14 25%);
+  background:linear-gradient(transparent,#080b14 25%)
 }
 .controls button{
-  flex:1;
-  min-width:0;
-  max-width:100px;
-  min-height:58px;
-  padding:8px 3px;
-  border-radius:15px;
-  background:#252a38ed;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  gap:5px;
-  font-size:22px;
+  flex:1;min-width:0;max-width:100px;min-height:58px;
+  padding:8px 3px;border-radius:15px;background:#252a38ed;
+  display:flex;flex-direction:column;justify-content:center;
+  align-items:center;gap:5px;font-size:22px
 }
-.controls button .control-label{
-  font-size:10px;
-  white-space:nowrap;
-}
+.controls button .control-label{font-size:10px;white-space:nowrap}
 .controls button.active-off{background:#7d2735}
 .controls button.leave-control{background:#d52e49}
 body.meeting-active .meeting-main-card{
-  position:absolute;
-  inset:0;
-  margin:0;
-  padding:0;
-  border:0;
-  border-radius:0;
-  background:transparent;
+  position:absolute;inset:0;margin:0;padding:0;border:0;
+  border-radius:0;background:transparent
 }
 body.meeting-active #status{
-  position:absolute;
-  z-index:6;
-  left:12px;
-  right:12px;
+  position:absolute;z-index:6;left:12px;right:12px;
   top:calc(env(safe-area-inset-top) + 60px);
-  text-align:center;
-  font-size:12px;
-  color:#fff;
-  pointer-events:none;
-  text-shadow:0 1px 5px #000;
+  text-align:center;font-size:12px;color:#fff;
+  pointer-events:none;text-shadow:0 1px 5px #000
 }
-body.meeting-active .chat-panel{
-  position:absolute;
-  z-index:20;
-  top:0;right:0;bottom:0;
-  width:min(88vw,360px);
-  margin:0;
+body.meeting-active .chat-panel,
+body.meeting-active .participant-drawer{
+  position:absolute;z-index:20;top:0;right:0;bottom:0;
+  width:min(88vw,360px);margin:0;
   padding:calc(env(safe-area-inset-top) + 72px) 14px
     calc(env(safe-area-inset-bottom) + 14px);
-  background:#0d1220f5;
-  border:0;
-  border-left:1px solid #ffffff20;
-  border-radius:0;
-  display:flex;
-  flex-direction:column;
+  background:#0d1220f5;border:0;border-left:1px solid #ffffff20;
+  border-radius:0;display:flex;flex-direction:column
 }
-.chat-panel h3{margin:0 0 12px}
+.chat-panel h3,.participant-drawer h3{margin:0 0 12px}
 .chatlog{
-  flex:1;
-  min-height:0;
-  overflow:auto;
-  background:#080d18;
-  border-radius:10px;
-  padding:10px;
-  font-size:13px;
+  flex:1;min-height:0;overflow:auto;background:#080d18;
+  border-radius:10px;padding:10px;font-size:13px
 }
-.chatline{
-  padding:8px 0;
-  border-bottom:1px solid #ffffff10;
-  overflow-wrap:anywhere;
-}
+.chatline{padding:8px 0;border-bottom:1px solid #ffffff10;overflow-wrap:anywhere}
 .chatform{display:flex;gap:7px;margin-top:10px}
 .chatform input{flex:1;padding:11px}
 .chatform button{padding:10px}
 .chat-close{margin-bottom:12px;align-self:flex-end}
 .chat-hint{font-size:11px;color:var(--muted);line-height:1.5}
+.drawer-list{overflow:auto;flex:1}
+.drawer-list .participant-item{align-items:flex-start}
 @media(max-width:420px){
   .controls{gap:4px}
   .controls button{font-size:20px;border-radius:12px}
@@ -297,8 +209,8 @@ body.meeting-active .chat-panel{
 }
 </style>
 </head>
-<body>
 
+<body>
 <header>
   <div class="brand">Sooya <span>Meet</span></div>
   <div class="pill">● Secure Meetings</div>
@@ -310,11 +222,29 @@ body.meeting-active .chat-panel{
     <p>Video meetings, wherever you are.</p>
   </section>
 
-  <section id="lobby" class="card">
-    <h2 style="margin-top:0">Join a Meeting</h2>
+  <section id="login">
+    <div class="login-content">
+      <h2>Welcome to Sooya Meet</h2>
+      <p class="notice">Continue with your Google Account to create or join a meeting.</p>
+      <div id="googleButton"></div>
+      <div id="googleStatus" role="status">Sign in with Google to continue.</div>
+    </div>
+  </section>
+
+  <section id="lobby" class="hidden">
+    <h2>Join a Meeting</h2>
+    <div class="account-bar">
+      <img id="accountPicture" alt="" class="hidden">
+      <div>
+        <div id="accountName"></div>
+        <div id="accountEmail" class="participant-email"></div>
+      </div>
+      <button id="signOut">Sign out</button>
+    </div>
+
     <div class="field">
       <label for="name">Your Name</label>
-      <input id="name" maxlength="40" placeholder="Enter your name" autocomplete="name">
+      <input id="name" maxlength="40" placeholder="Your Google name" readonly>
     </div>
     <div class="field">
       <label for="room">Meeting Room ID</label>
@@ -324,7 +254,7 @@ body.meeting-active .chat-panel{
       <button id="create" class="primary">＋ Create New Meeting</button>
       <button id="join">Join Meeting</button>
     </div>
-    <p class="notice">Share the Room ID with other participants. Anyone with the ID may be able to join, so only share it with trusted people for private meetings.</p>
+    <p class="notice">Share the Room ID only with people you trust.</p>
     <div id="lobbyStatus" class="status" role="status"></div>
   </section>
 
@@ -333,8 +263,12 @@ body.meeting-active .chat-panel{
       <div class="room-info">
         <div class="small">Sooya Meet · Room</div>
         <strong id="roomLabel"></strong>
+        <div id="participantCount" class="small">Participants: 0</div>
       </div>
-      <button id="copyRoom">▢ Copy Room ID</button>
+      <div class="row" style="flex:0;align-items:center">
+        <button id="participantToggle">👥 <span id="participantButtonCount">0</span></button>
+        <button id="copyRoom">▢ Copy ID</button>
+      </div>
     </div>
 
     <div id="status" class="status">Connecting...</div>
@@ -359,16 +293,13 @@ body.meeting-active .chat-panel{
             <span id="camLabel" class="control-label">Turn Camera Off</span>
           </button>
           <button id="chatToggle">
-            <span>💬</span>
-            <span class="control-label">Chat</span>
+            <span>💬</span><span class="control-label">Chat</span>
           </button>
           <button id="share">
-            <span>▣</span>
-            <span id="shareLabel" class="control-label">Share Screen</span>
+            <span>▣</span><span id="shareLabel" class="control-label">Share Screen</span>
           </button>
           <button id="leave" class="leave-control">
-            <span>📞</span>
-            <span class="control-label">Leave</span>
+            <span>📞</span><span class="control-label">Leave</span>
           </button>
         </div>
       </div>
@@ -383,6 +314,12 @@ body.meeting-active .chat-panel{
         </form>
         <p class="chat-hint">Messages are sent to participants in this meeting.</p>
       </aside>
+
+      <aside id="participantDrawer" class="participant-drawer hidden">
+        <button id="participantClose" class="chat-close">✕ Close</button>
+        <h3>People in this meeting</h3>
+        <div id="participantList" class="drawer-list"></div>
+      </aside>
     </div>
   </section>
 
@@ -395,18 +332,20 @@ import {
 } from 'https://cdn.jsdelivr.net/npm/livekit-client@2.13.3/+esm';
 
 const $=id=>document.getElementById(id);
+const GOOGLE_CLIENT_ID='269410892729-vcigf2mk2o0u55ls5o6gte6sunb11fev.apps.googleusercontent.com';
 
 let room=null;
 let localTracks=[];
 let micOn=false;
 let camOn=false;
 let screenTrack=null;
+let googleCredential='';
+let googleUser=null;
+let signingIn=false;
 
 function setStatus(s){$('status').textContent=s}
 function lobbyStatus(s){$('lobbyStatus').textContent=s}
-function safeName(s){
-  return (s||'Guest').trim().slice(0,40)||'Guest';
-}
+function safeName(s){return (s||'Guest').trim().slice(0,40)||'Guest'}
 
 function updateEmptyVideo(){
   const hasVideo=[...$('videos').querySelectorAll('video')].length>0;
@@ -414,21 +353,19 @@ function updateEmptyVideo(){
 }
 
 function addTile(identity,track,isLocal=false){
-  const id='tile-'+identity.replace(/[^a-zA-Z0-9_-]/g,'_')+
-    (track?.sid||Math.random().toString(36).slice(2,7));
+  const key='tile-'+identity.replace(/[^a-zA-Z0-9_-]/g,'_')+
+    '-'+(track?.sid||Math.random().toString(36).slice(2,7));
 
-  if(document.querySelector('[data-key="'+CSS.escape(id)+'"]'))return;
+  if([...document.querySelectorAll('.tile')].some(t=>t.dataset.key===key))return;
 
   const tile=document.createElement('div');
   tile.className='tile';
-  tile.dataset.key=id;
+  tile.dataset.key=key;
 
   if(track){
     const el=track.attach();
     if(el.tagName==='VIDEO'){
-      el.autoplay=true;
-      el.playsInline=true;
-      el.muted=isLocal;
+      el.autoplay=true;el.playsInline=true;el.muted=isLocal;
     }
     tile.appendChild(el);
   }
@@ -437,7 +374,6 @@ function addTile(identity,track,isLocal=false){
   name.className='name';
   name.textContent=(isLocal?'You: ':'')+identity;
   tile.appendChild(name);
-
   $('videos').appendChild(tile);
   updateEmptyVideo();
   return tile;
@@ -445,22 +381,16 @@ function addTile(identity,track,isLocal=false){
 
 function removeTrack(track){
   track.detach().forEach(el=>el.remove());
-
   document.querySelectorAll('.tile').forEach(t=>{
     if(!t.querySelector('video,audio'))t.remove();
   });
-
   updateEmptyVideo();
 }
 
 function attachPublished(pub,participant){
-  if(pub.track&&
-    (pub.kind===Track.Kind.Video||pub.kind===Track.Kind.Audio)){
-    addTile(
-      participant.identity,
-      pub.track,
-      participant===room?.localParticipant
-    );
+  if(pub.track&&(pub.kind===Track.Kind.Video||pub.kind===Track.Kind.Audio)){
+    addTile(participant.name||participant.identity,pub.track,
+      participant===room?.localParticipant);
   }
 }
 
@@ -469,15 +399,144 @@ function updateMicButton(){
   $('micLabel').textContent=micOn?'Mute':'Unmute';
   $('mic').classList.toggle('active-off',!micOn);
 }
-
 function updateCamButton(){
   $('camIcon').textContent=camOn?'📷':'🚫';
   $('camLabel').textContent=camOn?'Turn Camera Off':'Turn Camera On';
   $('cam').classList.toggle('active-off',!camOn);
 }
 
+/* Google Sign-In */
+function showSignedIn(user){
+  googleUser=user;
+  $('login').classList.add('hidden');
+  $('lobby').classList.remove('hidden');
+  $('accountName').textContent=user.name||'Google User';
+  $('accountEmail').textContent=user.email||'';
+  $('name').value=user.name||'Google User';
+
+  if(user.picture){
+    $('accountPicture').src=user.picture;
+    $('accountPicture').classList.remove('hidden');
+  }
+  $('googleStatus').textContent='Google sign-in successful.';
+}
+
+async function googleCredentialCallback(response){
+  if(signingIn)return;
+  signingIn=true;
+  $('googleStatus').textContent='Verifying your Google account...';
+
+  try{
+    // Credential must be verified by the Netlify server.
+    const resp=await fetch('/.netlify/functions/token',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        action:'verify',
+        googleCredential:response.credential
+      })
+    });
+    const data=await resp.json();
+    if(!resp.ok||!data.user)throw new Error(data.error||'Google verification failed.');
+
+    googleCredential=response.credential;
+    showSignedIn(data.user);
+  }catch(e){
+    googleCredential='';
+    $('googleStatus').textContent='Sign-in failed: '+e.message;
+  }finally{
+    signingIn=false;
+  }
+}
+
+function initGoogle(){
+  if(!window.google?.accounts?.id){
+    $('googleStatus').textContent='Loading Google Sign-In...';
+    setTimeout(initGoogle,400);
+    return;
+  }
+
+  google.accounts.id.initialize({
+    client_id:GOOGLE_CLIENT_ID,
+    callback:googleCredentialCallback,
+    auto_select:false,
+    cancel_on_tap_outside:true
+  });
+
+  google.accounts.id.renderButton($('googleButton'),{
+    type:'standard',
+    theme:'filled_black',
+    size:'large',
+    shape:'pill',
+    text:'signin_with',
+    logo_alignment:'left',
+    width:280
+  });
+}
+initGoogle();
+
+$('signOut').onclick=()=>{
+  googleCredential='';
+  googleUser=null;
+  if(window.google?.accounts?.id)google.accounts.id.disableAutoSelect();
+  $('lobby').classList.add('hidden');
+  $('login').classList.remove('hidden');
+  $('accountPicture').classList.add('hidden');
+  $('name').value='';
+  $('room').value='';
+  lobbyStatus('');
+};
+
+function renderParticipants(){
+  if(!room)return;
+  const people=[];
+  const local=room.localParticipant;
+
+  people.push({
+    name:local.name||googleUser?.name||local.identity,
+    identity:local.identity,
+    local:true
+  });
+
+  room.remoteParticipants.forEach(p=>{
+    people.push({
+      name:p.name||p.identity,
+      identity:p.identity,
+      local:false
+    });
+  });
+
+  $('participantCount').textContent='Participants: '+people.length;
+  $('participantButtonCount').textContent=people.length;
+  $('participantList').replaceChildren();
+
+  people.forEach(p=>{
+    const item=document.createElement('div');
+    item.className='participant-item';
+
+    const dot=document.createElement('span');
+    dot.className='participant-dot';
+
+    const info=document.createElement('div');
+    const name=document.createElement('div');
+    name.textContent=p.name+(p.local?' (You)':'');
+    const email=document.createElement('div');
+    email.className='participant-email';
+    email.textContent=p.identity;
+
+    info.append(name,email);
+    item.append(dot,info);
+    $('participantList').appendChild(item);
+  });
+}
+
 async function connectMeeting(roomName){
-  const name=safeName($('name').value);
+  if(!googleCredential||!googleUser){
+    lobbyStatus('Please sign in with Google first.');
+    $('login').classList.remove('hidden');
+    $('lobby').classList.add('hidden');
+    return;
+  }
 
   if(!roomName){
     lobbyStatus('Please enter a Room ID.');
@@ -491,44 +550,42 @@ async function connectMeeting(roomName){
     const resp=await fetch('/.netlify/functions/token',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({room:roomName,identity:name})
+      body:JSON.stringify({
+        action:'join',
+        googleCredential,
+        room:roomName
+      })
     });
 
     const data=await resp.json();
-
-    if(!resp.ok){
-      throw new Error(data.error||'Unable to obtain a meeting token.');
-    }
+    if(!resp.ok)throw new Error(data.error||'Unable to obtain a meeting token.');
 
     room=new Room({adaptiveStream:true,dynacast:true});
 
     room.on(RoomEvent.TrackSubscribed,(track,pub,participant)=>{
       attachPublished({track,kind:pub.kind},participant);
     });
-
     room.on(RoomEvent.TrackUnsubscribed,track=>removeTrack(track));
 
     room.on(RoomEvent.ParticipantConnected,p=>{
-      setStatus(p.identity+' joined the meeting.');
+      setStatus((p.name||p.identity)+' joined the meeting.');
+      renderParticipants();
     });
-
     room.on(RoomEvent.ParticipantDisconnected,p=>{
-      setStatus(p.identity+' left the meeting.');
+      setStatus((p.name||p.identity)+' left the meeting.');
+      renderParticipants();
     });
+    room.on(RoomEvent.ParticipantNameChanged,()=>renderParticipants());
 
     room.on(RoomEvent.Disconnected,()=>{
       setStatus('Meeting disconnected.');
+      renderParticipants();
     });
 
     room.on(RoomEvent.DataReceived,(payload,participant)=>{
       try{
         const m=JSON.parse(new TextDecoder().decode(payload));
-        if(m.type==='chat'){
-          appendChat(
-            m.name||participant?.identity||'Guest',
-            m.text
-          );
-        }
+        if(m.type==='chat')appendChat(m.name||participant?.name||'Guest',m.text);
       }catch{}
     });
 
@@ -537,6 +594,7 @@ async function connectMeeting(roomName){
     $('lobby').classList.add('hidden');
     $('meeting').classList.remove('hidden');
     $('chatPanel').classList.add('hidden');
+    $('participantDrawer').classList.add('hidden');
     document.body.classList.add('meeting-active');
 
     $('roomLabel').textContent=roomName;
@@ -545,18 +603,14 @@ async function connectMeeting(roomName){
     room.remoteParticipants.forEach(p=>{
       p.trackPublications.forEach(pub=>attachPublished(pub,p));
     });
+    renderParticipants();
 
     try{
-      localTracks=await createLocalTracks({
-        audio:true,
-        video:true
-      });
+      localTracks=await createLocalTracks({audio:true,video:true});
 
       for(const t of localTracks){
         await room.localParticipant.publishTrack(t);
-        if(t.kind===Track.Kind.Video){
-          addTile(name,t,true);
-        }
+        if(t.kind===Track.Kind.Video)addTile(googleUser.name,t,true);
       }
 
       micOn=true;
@@ -571,6 +625,7 @@ async function connectMeeting(roomName){
       updateCamButton();
       setStatus('Connected, but check camera/microphone permissions: '+e.message);
     }
+    renderParticipants();
 
   }catch(e){
     if(room){
@@ -588,10 +643,7 @@ $('create').onclick=()=>{
   $('room').value=r;
   connectMeeting(r);
 };
-
-$('join').onclick=()=>{
-  connectMeeting($('room').value.trim());
-};
+$('join').onclick=()=>connectMeeting($('room').value.trim());
 
 $('copyRoom').onclick=async()=>{
   try{
@@ -608,9 +660,7 @@ $('mic').onclick=async()=>{
     await room.localParticipant.setMicrophoneEnabled(!micOn);
     micOn=!micOn;
     updateMicButton();
-  }catch(e){
-    setStatus('Unable to change microphone: '+e.message);
-  }
+  }catch(e){setStatus('Unable to change microphone: '+e.message)}
 };
 
 $('cam').onclick=async()=>{
@@ -619,44 +669,38 @@ $('cam').onclick=async()=>{
     await room.localParticipant.setCameraEnabled(!camOn);
     camOn=!camOn;
     updateCamButton();
-    if(!camOn){
-      $('emptyVideo').classList.remove('hidden');
-    }else{
-      updateEmptyVideo();
-    }
-  }catch(e){
-    setStatus('Unable to change camera: '+e.message);
-  }
+    updateEmptyVideo();
+  }catch(e){setStatus('Unable to change camera: '+e.message)}
 };
 
 $('chatToggle').onclick=()=>{
+  $('participantDrawer').classList.add('hidden');
   $('chatPanel').classList.toggle('hidden');
 };
+$('chatClose').onclick=()=>$('chatPanel').classList.add('hidden');
 
-$('chatClose').onclick=()=>{
+$('participantToggle').onclick=()=>{
   $('chatPanel').classList.add('hidden');
+  $('participantDrawer').classList.toggle('hidden');
+  renderParticipants();
 };
+$('participantClose').onclick=()=>$('participantDrawer').classList.add('hidden');
 
 $('share').onclick=async()=>{
   if(!room)return;
-
   try{
     if(screenTrack){
       await room.localParticipant.unpublishTrack(screenTrack);
+      removeTrack(screenTrack);
       screenTrack.stop();
       screenTrack=null;
-
       $('shareLabel').textContent='Share Screen';
       $('share').classList.remove('active-off');
       return;
     }
 
-    const tracks=await room.localParticipant.createScreenTracks({
-      audio:false
-    });
-
+    const tracks=await room.localParticipant.createScreenTracks({audio:false});
     screenTrack=tracks[0];
-
     await room.localParticipant.publishTrack(screenTrack);
     addTile('Screen Share',screenTrack,true);
 
@@ -664,16 +708,15 @@ $('share').onclick=async()=>{
     $('share').classList.add('active-off');
 
     screenTrack.mediaStreamTrack.addEventListener('ended',async()=>{
-      if(!screenTrack)return;
-      try{
-        await room?.localParticipant.unpublishTrack(screenTrack);
-      }catch{}
-      screenTrack.stop();
+      const current=screenTrack;
+      if(!current)return;
+      try{await room?.localParticipant.unpublishTrack(current)}catch{}
+      removeTrack(current);
+      current.stop();
       screenTrack=null;
       $('shareLabel').textContent='Share Screen';
       $('share').classList.remove('active-off');
     },{once:true});
-
   }catch(e){
     setStatus('Screen sharing may not be supported in this browser/app: '+e.message);
   }
@@ -682,13 +725,10 @@ $('share').onclick=async()=>{
 function appendChat(name,text){
   const line=document.createElement('div');
   line.className='chatline';
-
   const b=document.createElement('b');
   b.textContent=name+': ';
-
   const s=document.createElement('span');
   s.textContent=text;
-
   line.append(b,s);
   $('chatlog').appendChild(line);
   $('chatlog').scrollTop=$('chatlog').scrollHeight;
@@ -696,7 +736,6 @@ function appendChat(name,text){
 
 $('chatform').onsubmit=async e=>{
   e.preventDefault();
-
   const text=$('chatinput').value.trim();
   if(!text||!room)return;
 
@@ -704,27 +743,25 @@ $('chatform').onsubmit=async e=>{
     await room.localParticipant.publishData(
       new TextEncoder().encode(JSON.stringify({
         type:'chat',
-        name:safeName($('name').value),
+        name:googleUser?.name||'Guest',
         text
       })),
       {reliable:true}
     );
-
-    appendChat(safeName($('name').value),text);
+    appendChat(googleUser?.name||'Guest',text);
     $('chatinput').value='';
-  }catch(e){
-    setStatus('Unable to send message: '+e.message);
-  }
+  }catch(e){setStatus('Unable to send message: '+e.message)}
 };
 
 $('leave').onclick=async()=>{
   if(room){
-    await room.disconnect();
+    try{await room.disconnect()}catch{}
   }
 
-  localTracks.forEach(t=>t.stop());
-
-  if(screenTrack)screenTrack.stop();
+  localTracks.forEach(t=>{try{t.stop()}catch{}});
+  if(screenTrack){
+    try{screenTrack.stop()}catch{}
+  }
 
   room=null;
   localTracks=[];
@@ -735,17 +772,20 @@ $('leave').onclick=async()=>{
   $('videos').replaceChildren();
   $('chatlog').replaceChildren();
   $('chatPanel').classList.add('hidden');
+  $('participantDrawer').classList.add('hidden');
   $('meeting').classList.add('hidden');
   $('lobby').classList.remove('hidden');
-
   document.body.classList.remove('meeting-active');
 
   updateMicButton();
   updateCamButton();
   updateEmptyVideo();
-
-  lobbyStatus('You have left the meeting.');
+  renderLobbyStatus();
 };
+
+function renderLobbyStatus(){
+  lobbyStatus('You have left the meeting.');
+}
 </script>
 </body>
 </html>
