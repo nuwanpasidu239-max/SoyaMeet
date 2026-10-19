@@ -1,74 +1,751 @@
 <!doctype html>
-<html lang="si">
+<html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#080b14"><title>Vihasa Meet</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080b14">
+<title>Sooya Meet</title>
+
 <style>
-:root{color-scheme:dark;--bg:#080b14;--panel:#111827;--line:#273247;--purple:#8b5cf6;--text:#f5f7ff;--muted:#a5b0c5}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#1c1640 0,#080b14 48%);color:var(--text);font-family:Inter,system-ui,-apple-system,sans-serif;min-height:100vh}header{padding:18px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff16;background:#080b14a8;position:sticky;top:0;z-index:5;backdrop-filter:blur(16px)}.brand{font-weight:850;font-size:20px;letter-spacing:-.6px}.brand span{color:#a78bfa}.pill{font-size:12px;color:#c4b5fd;border:1px solid #8b5cf655;background:#8b5cf61c;padding:7px 10px;border-radius:99px}.wrap{max-width:1050px;margin:auto;padding:24px 14px 50px}.hero{text-align:center;padding:24px 0}.hero h1{font-size:clamp(28px,6vw,46px);margin:0 0 10px;letter-spacing:-1.5px}.hero p{color:var(--muted);margin:0}.card{background:#111827dc;border:1px solid var(--line);border-radius:20px;padding:18px;margin:14px 0;box-shadow:0 20px 60px #0002}.field{display:flex;flex-direction:column;gap:7px;margin:12px 0}.field label{font-size:13px;color:#c3cbe0}.field input{width:100%;border:1px solid #34415a;background:#090f1d;color:white;padding:14px;border-radius:12px;font:inherit;outline:none}.field input:focus{border-color:var(--purple)}button{border:0;border-radius:12px;padding:13px 16px;font:600 14px inherit;cursor:pointer;color:white;background:#282f43}button:disabled{opacity:.5}.primary{background:linear-gradient(135deg,#8b5cf6,#6366f1)}.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1}.hidden{display:none!important}.notice{font-size:13px;line-height:1.5;color:var(--muted);margin-top:12px}.status{color:#c4b5fd;font-size:13px;min-height:20px}.video-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.tile{background:#05070c;border:1px solid #2b3447;border-radius:16px;overflow:hidden;min-height:190px;position:relative}.tile video{width:100%;height:100%;min-height:190px;object-fit:cover}.tile .name{position:absolute;left:10px;bottom:10px;background:#0009;padding:6px 9px;border-radius:8px;font-size:12px}.controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:15px 0}.controls button{min-width:92px}.danger{background:#be334d}.chatlog{height:180px;overflow:auto;background:#080d18;border-radius:12px;padding:10px;font-size:13px}.chatline{padding:6px 0;border-bottom:1px solid #ffffff0c;overflow-wrap:anywhere}.chatform{display:flex;gap:8px;margin-top:8px}.chatform input{flex:1;min-width:0;background:#080d18;color:white;border:1px solid #34415a;border-radius:10px;padding:12px}.small{font-size:12px;color:var(--muted)}footer{text-align:center;color:#758099;font-size:12px;padding:20px}@media(min-width:700px){.meeting-layout{display:grid;grid-template-columns:1fr 300px;gap:14px}.meeting-layout .card{margin:0}}
+:root{
+  color-scheme:dark;
+  --bg:#080b14;
+  --purple:#8b5cf6;
+  --text:#f5f7ff;
+  --muted:#a5b0c5;
+  --danger:#e5485d;
+}
+*{box-sizing:border-box}
+html,body{
+  margin:0;
+  min-height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,system-ui,-apple-system,sans-serif;
+}
+body{min-height:100dvh}
+button,input{font:inherit}
+button{
+  border:0;
+  cursor:pointer;
+  color:white;
+  background:#252b3a;
+  padding:12px 15px;
+  border-radius:12px;
+  font-size:13px;
+  font-weight:650;
+}
+button:disabled{opacity:.5}
+.primary{background:linear-gradient(135deg,#8b5cf6,#6366f1)}
+.danger{background:var(--danger)}
+.hidden{display:none!important}
+header{
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 18px;
+  border-bottom:1px solid #ffffff12;
+  background:#080b14;
+}
+.brand{font-size:20px;font-weight:850}
+.brand span{color:#a78bfa}
+.pill{font-size:11px;color:#c4b5fd}
+.wrap{max-width:1050px;margin:auto;padding:20px 14px 40px}
+.hero{text-align:center;padding:24px 0}
+.hero h1{font-size:clamp(28px,6vw,46px);margin:0 0 10px}
+.hero p,.notice,.small{color:var(--muted)}
+.card{
+  background:#111827;
+  border:1px solid #273247;
+  border-radius:18px;
+  padding:18px;
+  margin:14px 0;
+}
+.field{display:flex;flex-direction:column;gap:7px;margin:13px 0}
+.field label{font-size:13px;color:#c3cbe0}
+.field input,.chatform input{
+  width:100%;
+  min-width:0;
+  background:#0b1020;
+  color:white;
+  border:1px solid #34415a;
+  border-radius:11px;
+  padding:14px;
+  outline:none;
+}
+.field input:focus,.chatform input:focus{border-color:var(--purple)}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row>*{flex:1}
+.notice{font-size:12px;line-height:1.6}
+.status{color:#c4b5fd;font-size:13px;line-height:1.5;margin-top:10px}
+footer{text-align:center;color:#758099;font-size:12px;padding:20px}
+
+/* FULL-SCREEN MEETING */
+body.meeting-active{overflow:hidden}
+body.meeting-active header,
+body.meeting-active .hero,
+body.meeting-active footer{display:none!important}
+body.meeting-active .wrap{
+  position:fixed;
+  inset:0;
+  width:100%;
+  max-width:none;
+  height:100%;
+  height:100dvh;
+  padding:0;
+  margin:0;
+  overflow:hidden;
+}
+body.meeting-active #meeting{
+  position:absolute;
+  inset:0;
+  display:block!important;
+  background:#05070c;
+  overflow:hidden;
+}
+body.meeting-active #meeting>.meeting-top{
+  position:absolute;
+  top:0;left:0;right:0;
+  z-index:5;
+  padding:calc(env(safe-area-inset-top) + 12px) 14px 12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  background:linear-gradient(#000b,transparent);
+  pointer-events:none;
+}
+.meeting-top>*{pointer-events:auto}
+.meeting-top .room-info{min-width:0}
+.meeting-top .room-info strong{
+  display:block;
+  font-size:14px;
+  overflow-wrap:anywhere;
+}
+.meeting-top .small{font-size:11px}
+.meeting-top button{
+  background:#222735d9;
+  padding:10px 12px;
+  flex-shrink:0;
+}
+body.meeting-active .meeting-layout{
+  position:absolute;
+  inset:0;
+  display:block;
+}
+body.meeting-active .video-stage{
+  position:absolute;
+  inset:0;
+  background:#05070c;
+  overflow:hidden;
+}
+.video-grid{
+  position:absolute;
+  inset:0;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));
+  grid-auto-rows:1fr;
+  gap:2px;
+  background:#05070c;
+}
+.tile{
+  position:relative;
+  min-width:0;
+  min-height:0;
+  overflow:hidden;
+  background:#10131c;
+}
+.tile video{
+  display:block;
+  width:100%;
+  height:100%;
+  min-height:0;
+  object-fit:cover;
+  background:#080b14;
+}
+.tile audio{display:none}
+.tile .name{
+  position:absolute;
+  bottom:calc(105px + env(safe-area-inset-bottom));
+  left:12px;
+  z-index:2;
+  background:#0009;
+  color:white;
+  padding:7px 10px;
+  border-radius:8px;
+  font-size:12px;
+}
+.empty-video{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:12px;
+  color:#c7cde0;
+  pointer-events:none;
+}
+.empty-video .avatar{
+  width:76px;height:76px;
+  display:grid;place-items:center;
+  border-radius:50%;
+  background:#29213e;
+  font-size:30px;
+}
+.empty-video p{font-size:13px;margin:0}
+body.meeting-active .controls{
+  position:absolute;
+  z-index:10;
+  bottom:0;left:0;right:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:nowrap;
+  gap:clamp(5px,2vw,12px);
+  padding:12px 8px calc(12px + env(safe-area-inset-bottom));
+  background:linear-gradient(transparent,#080b14 25%);
+}
+.controls button{
+  flex:1;
+  min-width:0;
+  max-width:100px;
+  min-height:58px;
+  padding:8px 3px;
+  border-radius:15px;
+  background:#252a38ed;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:5px;
+  font-size:22px;
+}
+.controls button .control-label{
+  font-size:10px;
+  white-space:nowrap;
+}
+.controls button.active-off{background:#7d2735}
+.controls button.leave-control{background:#d52e49}
+body.meeting-active .meeting-main-card{
+  position:absolute;
+  inset:0;
+  margin:0;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+}
+body.meeting-active #status{
+  position:absolute;
+  z-index:6;
+  left:12px;
+  right:12px;
+  top:calc(env(safe-area-inset-top) + 60px);
+  text-align:center;
+  font-size:12px;
+  color:#fff;
+  pointer-events:none;
+  text-shadow:0 1px 5px #000;
+}
+body.meeting-active .chat-panel{
+  position:absolute;
+  z-index:20;
+  top:0;right:0;bottom:0;
+  width:min(88vw,360px);
+  margin:0;
+  padding:calc(env(safe-area-inset-top) + 72px) 14px
+    calc(env(safe-area-inset-bottom) + 14px);
+  background:#0d1220f5;
+  border:0;
+  border-left:1px solid #ffffff20;
+  border-radius:0;
+  display:flex;
+  flex-direction:column;
+}
+.chat-panel h3{margin:0 0 12px}
+.chatlog{
+  flex:1;
+  min-height:0;
+  overflow:auto;
+  background:#080d18;
+  border-radius:10px;
+  padding:10px;
+  font-size:13px;
+}
+.chatline{
+  padding:8px 0;
+  border-bottom:1px solid #ffffff10;
+  overflow-wrap:anywhere;
+}
+.chatform{display:flex;gap:7px;margin-top:10px}
+.chatform input{flex:1;padding:11px}
+.chatform button{padding:10px}
+.chat-close{margin-bottom:12px;align-self:flex-end}
+.chat-hint{font-size:11px;color:var(--muted);line-height:1.5}
+@media(max-width:420px){
+  .controls{gap:4px}
+  .controls button{font-size:20px;border-radius:12px}
+  .controls button .control-label{font-size:9px}
+  .meeting-top button{font-size:11px;padding:9px}
+}
+@media(orientation:landscape) and (max-height:500px){
+  .controls{padding-top:5px!important;padding-bottom:5px!important}
+  .controls button{min-height:46px;flex-direction:row;gap:5px}
+  .tile .name{bottom:65px}
+}
 </style>
 </head>
 <body>
-<header><div class="brand">Vihasa <span>Meet</span></div><div class="pill">● Secure meetings</div></header>
+
+<header>
+  <div class="brand">Sooya <span>Meet</span></div>
+  <div class="pill">● Secure Meetings</div>
+</header>
+
 <main class="wrap">
-<section class="hero"><h1>එකට හමුවෙමු.</h1><p>Video meetings, wherever you are.</p></section>
-<section id="lobby" class="card">
-<h2 style="margin-top:0">Meeting එකකට සම්බන්ධ වන්න</h2>
-<div class="field"><label for="name">ඔබගේ නම</label><input id="name" maxlength="40" placeholder="නම ඇතුළත් කරන්න" autocomplete="name"></div>
-<div class="field"><label for="room">Meeting Room ID</label><input id="room" maxlength="80" placeholder="උදා: vihasa-123"></div>
-<div class="row"><button id="create" class="primary">＋ අලුත් Meeting එකක්</button><button id="join">Meeting එකට Join වෙන්න</button></div>
-<p class="notice">Room ID එක අනෙක් අයට බෙදාගන්න. ඕනෑම කෙනෙකුට ID එක දුන්නොත් ඇතුළු විය හැකි බැවින් පුද්ගලික රැස්වීම් සඳහා විශ්වාසවන්ත අය සමඟ පමණක් බෙදාගන්න.</p>
-<div id="lobbyStatus" class="status" role="status"></div>
-</section>
-<section id="meeting" class="hidden">
-<div class="card"><div class="row" style="align-items:center"><div><div class="small">ඔබ සම්බන්ධ වී සිටින්නේ</div><strong id="roomLabel"></strong></div><button id="copyRoom">Room ID Copy කරන්න</button></div><div id="status" class="status" style="margin-top:12px">සම්බන්ධ වෙමින්...</div></div>
-<div class="meeting-layout"><div class="card"><div id="videos" class="video-grid"></div><div class="controls"><button id="mic">🎙️ Mic Off</button><button id="cam">📷 Camera Off</button><button id="share">▣ Screen Share</button><button id="leave" class="danger">Call එකෙන් ඉවත් වෙන්න</button></div></div>
-<aside class="card"><h3 style="margin-top:0">Live Chat</h3><div id="chatlog" class="chatlog" aria-live="polite"></div><form id="chatform" class="chatform"><input id="chatinput" maxlength="500" placeholder="පණිවිඩයක් ලියන්න..." autocomplete="off"><button class="primary" type="submit">යවන්න</button></form><p class="small">Chat පණිවිඩ meeting එකේ සහභාගීන්ට යවනු ලැබේ.</p></aside></div>
-</section>
-<footer>Vihasa Meet · Powered by LiveKit</footer>
+  <section class="hero">
+    <h1>Let's Meet Together.</h1>
+    <p>Video meetings, wherever you are.</p>
+  </section>
+
+  <section id="lobby" class="card">
+    <h2 style="margin-top:0">Join a Meeting</h2>
+    <div class="field">
+      <label for="name">Your Name</label>
+      <input id="name" maxlength="40" placeholder="Enter your name" autocomplete="name">
+    </div>
+    <div class="field">
+      <label for="room">Meeting Room ID</label>
+      <input id="room" maxlength="80" placeholder="e.g. sooya-123">
+    </div>
+    <div class="row">
+      <button id="create" class="primary">＋ Create New Meeting</button>
+      <button id="join">Join Meeting</button>
+    </div>
+    <p class="notice">Share the Room ID with other participants. Anyone with the ID may be able to join, so only share it with trusted people for private meetings.</p>
+    <div id="lobbyStatus" class="status" role="status"></div>
+  </section>
+
+  <section id="meeting" class="hidden">
+    <div class="meeting-top">
+      <div class="room-info">
+        <div class="small">Sooya Meet · Room</div>
+        <strong id="roomLabel"></strong>
+      </div>
+      <button id="copyRoom">▢ Copy Room ID</button>
+    </div>
+
+    <div id="status" class="status">Connecting...</div>
+
+    <div class="meeting-layout">
+      <div class="meeting-main-card">
+        <div class="video-stage">
+          <div id="videos" class="video-grid"></div>
+          <div id="emptyVideo" class="empty-video">
+            <div class="avatar">S</div>
+            <p>Waiting for your camera to start...</p>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button id="mic">
+            <span id="micIcon">🎙️</span>
+            <span id="micLabel" class="control-label">Mute</span>
+          </button>
+          <button id="cam">
+            <span id="camIcon">📷</span>
+            <span id="camLabel" class="control-label">Turn Camera Off</span>
+          </button>
+          <button id="chatToggle">
+            <span>💬</span>
+            <span class="control-label">Chat</span>
+          </button>
+          <button id="share">
+            <span>▣</span>
+            <span id="shareLabel" class="control-label">Share Screen</span>
+          </button>
+          <button id="leave" class="leave-control">
+            <span>📞</span>
+            <span class="control-label">Leave</span>
+          </button>
+        </div>
+      </div>
+
+      <aside id="chatPanel" class="chat-panel hidden">
+        <button id="chatClose" class="chat-close">✕ Close</button>
+        <h3>Meeting Chat</h3>
+        <div id="chatlog" class="chatlog" aria-live="polite"></div>
+        <form id="chatform" class="chatform">
+          <input id="chatinput" maxlength="500" placeholder="Type a message..." autocomplete="off">
+          <button class="primary" type="submit">Send</button>
+        </form>
+        <p class="chat-hint">Messages are sent to participants in this meeting.</p>
+      </aside>
+    </div>
+  </section>
+
+  <footer>Sooya Meet · Powered by LiveKit</footer>
 </main>
+
 <script type="module">
-import {Room,RoomEvent,Track,createLocalTracks} from 'https://cdn.jsdelivr.net/npm/livekit-client@2.13.3/+esm';
+import {
+  Room,RoomEvent,Track,createLocalTracks
+} from 'https://cdn.jsdelivr.net/npm/livekit-client@2.13.3/+esm';
+
 const $=id=>document.getElementById(id);
-let room=null,localTracks=[],micOn=false,camOn=false,screenTrack=null;
+
+let room=null;
+let localTracks=[];
+let micOn=false;
+let camOn=false;
+let screenTrack=null;
+
 function setStatus(s){$('status').textContent=s}
 function lobbyStatus(s){$('lobbyStatus').textContent=s}
-function safeName(s){return (s||'Guest').trim().slice(0,40)||'Guest'}
+function safeName(s){
+  return (s||'Guest').trim().slice(0,40)||'Guest';
+}
+
+function updateEmptyVideo(){
+  const hasVideo=[...$('videos').querySelectorAll('video')].length>0;
+  $('emptyVideo').classList.toggle('hidden',hasVideo);
+}
+
 function addTile(identity,track,isLocal=false){
- const id='tile-'+identity.replace(/[^a-zA-Z0-9_-]/g,'_')+(track?.sid||'');
- const tile=document.createElement('div');tile.className='tile';tile.dataset.key=id;
- if(track){const el=track.attach();if(el.tagName==='VIDEO'){el.autoplay=true;el.playsInline=true}tile.appendChild(el)}
- const name=document.createElement('div');name.className='name';name.textContent=(isLocal?'ඔබ: ':'')+identity;tile.appendChild(name);$('videos').appendChild(tile);return tile
+  const id='tile-'+identity.replace(/[^a-zA-Z0-9_-]/g,'_')+
+    (track?.sid||Math.random().toString(36).slice(2,7));
+
+  if(document.querySelector('[data-key="'+CSS.escape(id)+'"]'))return;
+
+  const tile=document.createElement('div');
+  tile.className='tile';
+  tile.dataset.key=id;
+
+  if(track){
+    const el=track.attach();
+    if(el.tagName==='VIDEO'){
+      el.autoplay=true;
+      el.playsInline=true;
+      el.muted=isLocal;
+    }
+    tile.appendChild(el);
+  }
+
+  const name=document.createElement('div');
+  name.className='name';
+  name.textContent=(isLocal?'You: ':'')+identity;
+  tile.appendChild(name);
+
+  $('videos').appendChild(tile);
+  updateEmptyVideo();
+  return tile;
 }
-function removeTrack(track){track.detach().forEach(el=>el.remove());document.querySelectorAll('.tile').forEach(t=>{if(!t.querySelector('video,audio'))t.remove()})}
-function attachPublished(pub,participant){if(pub.track&&(pub.kind===Track.Kind.Video||pub.kind===Track.Kind.Audio)){addTile(participant.identity,pub.track,participant===room?.localParticipant)}}
+
+function removeTrack(track){
+  track.detach().forEach(el=>el.remove());
+
+  document.querySelectorAll('.tile').forEach(t=>{
+    if(!t.querySelector('video,audio'))t.remove();
+  });
+
+  updateEmptyVideo();
+}
+
+function attachPublished(pub,participant){
+  if(pub.track&&
+    (pub.kind===Track.Kind.Video||pub.kind===Track.Kind.Audio)){
+    addTile(
+      participant.identity,
+      pub.track,
+      participant===room?.localParticipant
+    );
+  }
+}
+
+function updateMicButton(){
+  $('micIcon').textContent=micOn?'🎙️':'🔇';
+  $('micLabel').textContent=micOn?'Mute':'Unmute';
+  $('mic').classList.toggle('active-off',!micOn);
+}
+
+function updateCamButton(){
+  $('camIcon').textContent=camOn?'📷':'🚫';
+  $('camLabel').textContent=camOn?'Turn Camera Off':'Turn Camera On';
+  $('cam').classList.toggle('active-off',!camOn);
+}
+
 async function connectMeeting(roomName){
- const name=safeName($('name').value); if(!roomName){lobbyStatus('Room ID එක ඇතුළත් කරන්න.');return}
- $('create').disabled=$('join').disabled=true;lobbyStatus('Meeting එකට සම්බන්ධ වෙමින්...');
- try{
-  const resp=await fetch('/.netlify/functions/token',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:roomName,identity:name})});
-  const data=await resp.json();if(!resp.ok)throw new Error(data.error||'Token ලබාගැනීමට නොහැකි වුණා.');
-  room=new Room({adaptiveStream:true,dynacast:true});
-  room.on(RoomEvent.TrackSubscribed,(track,pub,participant)=>attachPublished({track,kind:pub.kind},participant));
-  room.on(RoomEvent.TrackUnsubscribed,(track)=>removeTrack(track));
-  room.on(RoomEvent.ParticipantConnected,p=>setStatus(p.identity+' සම්බන්ධ වුණා'));
-  room.on(RoomEvent.ParticipantDisconnected,p=>setStatus(p.identity+' ඉවත් වුණා'));
-  room.on(RoomEvent.Disconnected,()=>{});
-  room.on(RoomEvent.DataReceived,(payload,participant)=>{try{const m=JSON.parse(new TextDecoder().decode(payload));if(m.type==='chat')appendChat(m.name||participant?.identity||'Guest',m.text,false)}catch{}});
-  await room.connect(data.url,data.token);
-  $('lobby').classList.add('hidden');$('meeting').classList.remove('hidden');$('roomLabel').textContent=roomName;setStatus('Meeting එකට සම්බන්ධයි');
-  room.remoteParticipants.forEach(p=>p.trackPublications.forEach(pub=>attachPublished(pub,p)));
-  try{localTracks=await createLocalTracks({audio:true,video:true});for(const t of localTracks){await room.localParticipant.publishTrack(t);if(t.kind===Track.Kind.Video)addTile(name,t,true)}micOn=true;camOn=true;$('mic').textContent='🎙️ Mic Off';$('cam').textContent='📷 Camera Off'}catch(e){setStatus('Meeting සම්බන්ධයි. Camera/Mic අවසර පරීක්ෂා කරන්න: '+e.message)}
- }catch(e){lobbyStatus('දෝෂයක්: '+e.message)}finally{$('create').disabled=$('join').disabled=false}
+  const name=safeName($('name').value);
+
+  if(!roomName){
+    lobbyStatus('Please enter a Room ID.');
+    return;
+  }
+
+  $('create').disabled=$('join').disabled=true;
+  lobbyStatus('Connecting to the meeting...');
+
+  try{
+    const resp=await fetch('/.netlify/functions/token',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({room:roomName,identity:name})
+    });
+
+    const data=await resp.json();
+
+    if(!resp.ok){
+      throw new Error(data.error||'Unable to obtain a meeting token.');
+    }
+
+    room=new Room({adaptiveStream:true,dynacast:true});
+
+    room.on(RoomEvent.TrackSubscribed,(track,pub,participant)=>{
+      attachPublished({track,kind:pub.kind},participant);
+    });
+
+    room.on(RoomEvent.TrackUnsubscribed,track=>removeTrack(track));
+
+    room.on(RoomEvent.ParticipantConnected,p=>{
+      setStatus(p.identity+' joined the meeting.');
+    });
+
+    room.on(RoomEvent.ParticipantDisconnected,p=>{
+      setStatus(p.identity+' left the meeting.');
+    });
+
+    room.on(RoomEvent.Disconnected,()=>{
+      setStatus('Meeting disconnected.');
+    });
+
+    room.on(RoomEvent.DataReceived,(payload,participant)=>{
+      try{
+        const m=JSON.parse(new TextDecoder().decode(payload));
+        if(m.type==='chat'){
+          appendChat(
+            m.name||participant?.identity||'Guest',
+            m.text
+          );
+        }
+      }catch{}
+    });
+
+    await room.connect(data.url,data.token);
+
+    $('lobby').classList.add('hidden');
+    $('meeting').classList.remove('hidden');
+    $('chatPanel').classList.add('hidden');
+    document.body.classList.add('meeting-active');
+
+    $('roomLabel').textContent=roomName;
+    setStatus('Connected to the meeting.');
+
+    room.remoteParticipants.forEach(p=>{
+      p.trackPublications.forEach(pub=>attachPublished(pub,p));
+    });
+
+    try{
+      localTracks=await createLocalTracks({
+        audio:true,
+        video:true
+      });
+
+      for(const t of localTracks){
+        await room.localParticipant.publishTrack(t);
+        if(t.kind===Track.Kind.Video){
+          addTile(name,t,true);
+        }
+      }
+
+      micOn=true;
+      camOn=true;
+      updateMicButton();
+      updateCamButton();
+      setStatus('Connected to the meeting.');
+    }catch(e){
+      micOn=false;
+      camOn=false;
+      updateMicButton();
+      updateCamButton();
+      setStatus('Connected, but check camera/microphone permissions: '+e.message);
+    }
+
+  }catch(e){
+    if(room){
+      try{await room.disconnect()}catch{}
+      room=null;
+    }
+    lobbyStatus('Error: '+e.message);
+  }finally{
+    $('create').disabled=$('join').disabled=false;
+  }
 }
-$('create').onclick=()=>{const r='vihasa-'+Math.random().toString(36).slice(2,8);$('room').value=r;connectMeeting(r)};
-$('join').onclick=()=>connectMeeting($('room').value.trim());
-$('copyRoom').onclick=async()=>{try{await navigator.clipboard.writeText($('roomLabel').textContent);setStatus('Room ID Copy කළා')}catch{setStatus('Room ID: '+$('roomLabel').textContent)}};
-$('mic').onclick=async()=>{if(!room)return;micOn=!micOn;await room.localParticipant.setMicrophoneEnabled(micOn);$('mic').textContent=micOn?'🎙️ Mic Off':'🔇 Mic On'};
-$('cam').onclick=async()=>{if(!room)return;camOn=!camOn;await room.localParticipant.setCameraEnabled(camOn);$('cam').textContent=camOn?'📷 Camera Off':'📷 Camera On'};
-$('share').onclick=async()=>{if(!room)return;try{if(screenTrack){await room.localParticipant.unpublishTrack(screenTrack);screenTrack.stop();screenTrack=null;$('share').textContent='▣ Screen Share';return}screenTrack=await room.localParticipant.createScreenTracks({audio:false}).then(a=>a[0]);await room.localParticipant.publishTrack(screenTrack);addTile('Screen Share',screenTrack,true);$('share').textContent='Stop Sharing'}catch(e){setStatus('Screen sharing මෙම browser/app එකෙන් සහාය නොදක්වන්න පුළුවන්: '+e.message)}};
-function appendChat(name,text,send){const line=document.createElement('div');line.className='chatline';const b=document.createElement('b');b.textContent=name+': ';const s=document.createElement('span');s.textContent=text;line.append(b,s);$('chatlog').appendChild(line);$('chatlog').scrollTop=$('chatlog').scrollHeight}
-$('chatform').onsubmit=async e=>{e.preventDefault();const text=$('chatinput').value.trim();if(!text||!room)return;try{await room.localParticipant.publishData(new TextEncoder().encode(JSON.stringify({type:'chat',name:safeName($('name').value),text})),{reliable:true});appendChat(safeName($('name').value),text,true);$('chatinput').value=''}catch(e){setStatus('Chat යැවීමට නොහැකි වුණා: '+e.message)}};
-$('leave').onclick=async()=>{if(room)await room.disconnect();localTracks.forEach(t=>t.stop());if(screenTrack)screenTrack.stop();room=null;localTracks=[];screenTrack=null;$('videos').replaceChildren();$('chatlog').replaceChildren();$('meeting').classList.add('hidden');$('lobby').classList.remove('hidden');lobbyStatus('Meeting එකෙන් ඉවත් වුණා.')};
+
+$('create').onclick=()=>{
+  const r='sooya-'+Math.random().toString(36).slice(2,8);
+  $('room').value=r;
+  connectMeeting(r);
+};
+
+$('join').onclick=()=>{
+  connectMeeting($('room').value.trim());
+};
+
+$('copyRoom').onclick=async()=>{
+  try{
+    await navigator.clipboard.writeText($('roomLabel').textContent);
+    setStatus('Room ID copied.');
+  }catch{
+    setStatus('Room ID: '+$('roomLabel').textContent);
+  }
+};
+
+$('mic').onclick=async()=>{
+  if(!room)return;
+  try{
+    await room.localParticipant.setMicrophoneEnabled(!micOn);
+    micOn=!micOn;
+    updateMicButton();
+  }catch(e){
+    setStatus('Unable to change microphone: '+e.message);
+  }
+};
+
+$('cam').onclick=async()=>{
+  if(!room)return;
+  try{
+    await room.localParticipant.setCameraEnabled(!camOn);
+    camOn=!camOn;
+    updateCamButton();
+    if(!camOn){
+      $('emptyVideo').classList.remove('hidden');
+    }else{
+      updateEmptyVideo();
+    }
+  }catch(e){
+    setStatus('Unable to change camera: '+e.message);
+  }
+};
+
+$('chatToggle').onclick=()=>{
+  $('chatPanel').classList.toggle('hidden');
+};
+
+$('chatClose').onclick=()=>{
+  $('chatPanel').classList.add('hidden');
+};
+
+$('share').onclick=async()=>{
+  if(!room)return;
+
+  try{
+    if(screenTrack){
+      await room.localParticipant.unpublishTrack(screenTrack);
+      screenTrack.stop();
+      screenTrack=null;
+
+      $('shareLabel').textContent='Share Screen';
+      $('share').classList.remove('active-off');
+      return;
+    }
+
+    const tracks=await room.localParticipant.createScreenTracks({
+      audio:false
+    });
+
+    screenTrack=tracks[0];
+
+    await room.localParticipant.publishTrack(screenTrack);
+    addTile('Screen Share',screenTrack,true);
+
+    $('shareLabel').textContent='Stop Sharing';
+    $('share').classList.add('active-off');
+
+    screenTrack.mediaStreamTrack.addEventListener('ended',async()=>{
+      if(!screenTrack)return;
+      try{
+        await room?.localParticipant.unpublishTrack(screenTrack);
+      }catch{}
+      screenTrack.stop();
+      screenTrack=null;
+      $('shareLabel').textContent='Share Screen';
+      $('share').classList.remove('active-off');
+    },{once:true});
+
+  }catch(e){
+    setStatus('Screen sharing may not be supported in this browser/app: '+e.message);
+  }
+};
+
+function appendChat(name,text){
+  const line=document.createElement('div');
+  line.className='chatline';
+
+  const b=document.createElement('b');
+  b.textContent=name+': ';
+
+  const s=document.createElement('span');
+  s.textContent=text;
+
+  line.append(b,s);
+  $('chatlog').appendChild(line);
+  $('chatlog').scrollTop=$('chatlog').scrollHeight;
+}
+
+$('chatform').onsubmit=async e=>{
+  e.preventDefault();
+
+  const text=$('chatinput').value.trim();
+  if(!text||!room)return;
+
+  try{
+    await room.localParticipant.publishData(
+      new TextEncoder().encode(JSON.stringify({
+        type:'chat',
+        name:safeName($('name').value),
+        text
+      })),
+      {reliable:true}
+    );
+
+    appendChat(safeName($('name').value),text);
+    $('chatinput').value='';
+  }catch(e){
+    setStatus('Unable to send message: '+e.message);
+  }
+};
+
+$('leave').onclick=async()=>{
+  if(room){
+    await room.disconnect();
+  }
+
+  localTracks.forEach(t=>t.stop());
+
+  if(screenTrack)screenTrack.stop();
+
+  room=null;
+  localTracks=[];
+  screenTrack=null;
+  micOn=false;
+  camOn=false;
+
+  $('videos').replaceChildren();
+  $('chatlog').replaceChildren();
+  $('chatPanel').classList.add('hidden');
+  $('meeting').classList.add('hidden');
+  $('lobby').classList.remove('hidden');
+
+  document.body.classList.remove('meeting-active');
+
+  updateMicButton();
+  updateCamButton();
+  updateEmptyVideo();
+
+  lobbyStatus('You have left the meeting.');
+};
 </script>
-</body></html>
+</body>
+</html>
